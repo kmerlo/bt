@@ -174,6 +174,14 @@ python -m pytest tests/test_backtest.py -q
 - **If Cython compilation breaks**: Revert to single `core.py` and note the split as a future task.
 - **If the refactor is too large**: Split only 1-2 modules first (e.g., `costs.py` first, as it's independent).
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Verification**: `python3 -m pytest tests/ -q` → 192 passed  
+**Changes**: `bt/core.py` (2213 lines) split into `bt/core/` package with 5 submodules. Old `.py`/`.c`/`.so` removed. All `from bt.core import ...` imports preserved via `__init__.py` re-exports.
+
+---
+
 ## Evidence References
 
 - `bt/core.py:1-2211` — Full source (2211 lines, 121 symbols)

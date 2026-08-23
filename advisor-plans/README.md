@@ -19,7 +19,7 @@
 | 06 | design-strategy-serialization | — | P2 | ✅ DONE |
 | 07 | design-plugin-system | — | P2 | ✅ DONE |
 | 08 | numby-2-compatibility-spike | — | P2 | ✅ DONE |
-| 09 | split-core-god-module | — | P3 | READY |
+| 09 | split-core-god-module | — | P3 | ✅ DONE |
 
 ---
 
