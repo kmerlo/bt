@@ -48,7 +48,7 @@ serve:
 	uv run python -m http.server 9087
 
 build_dev:
-	uv run pip install -e . --no-build-isolation
+	$(MAKE) develop
 
 clean:
 	rm -rf build dist

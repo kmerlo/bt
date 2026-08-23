@@ -14,7 +14,7 @@
 | 01 | fix-cython-costmodel-export | — | P0 | ✅ DONE |
 | 02 | validate-commissions-signature | — | P0 | ✅ DONE |
 | 03 | migrate-to-uv | — | P0 | ✅ DONE |
-| 04 | fix-hatch-cython-editable | 03 | P1 | READY |
+| 04 | fix-hatch-cython-editable | 03 | P1 | ✅ DONE |
 | 05 | add-mypy-type-checking | 03 | P1 | READY |
 | 06 | design-strategy-serialization | — | P2 | READY |
 | 07 | design-plugin-system | — | P2 | READY |

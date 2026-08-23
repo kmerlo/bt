@@ -83,6 +83,25 @@ python -c "import bt; print(bt.__version__)"
 python -c "from bt import AlmgrenChrissCostModel"  # Also tests Plan 01
 ```
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Fix**: The hatch-cython editable install was already resolved in plan 01 (added `[tool.setuptools.packages.find]` to pyproject.toml + installed `editables`). With plan 03 (uv migration), the `Makefile develop` target uses `uv sync --all-groups --all-extras` which handles everything correctly.
+
+A `.python-version` file was added to pin the venv to Python 3.12 — the latest uv default (3.14) has a pandas ABI incompatibility.
+
+**Changes**:
+- `Makefile`: `build_dev` now delegates to `develop` (uv sync handles the full editable install including Cython)
+- `.python-version`: pinned to `3.12` to avoid Python 3.14 / pandas compatibility issues
+
+**Verification**:
+```
+.venv/bin/python -c "import bt; print(bt.__version__)"  → 1.2.0
+.venv/bin/python -c "from bt import AlmgrenChrissCostModel; print('OK')"  → OK
+make test                                             → 185 passed
+make lint                                             → All checks passed
+```
+
 ## Verification Commands
 
 | Step | Command | Expected |
