@@ -77,3 +77,14 @@ docs/source/.ipynb_checkpoints/
 
 # jupyter
 .ipynb_checkpoints
+
+# Strumenti locali (non parte del progetto)
+.claude/
+.codegraph/
+.opencode/
+.graphifyignore
+opencode.json
+graphify-out/
+raw/
+sessione_opencode.txt
+uv.lock

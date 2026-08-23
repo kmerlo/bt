@@ -87,6 +87,10 @@ exclude = [
     "*/backtest.py",
 ]
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bt*"]
+
 [tool.ruff]
 line-length = 180
 
