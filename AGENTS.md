@@ -168,6 +168,7 @@ When an advisor-plans plan is fully implemented and verified:
 - After editing `bt/core.py`, always rebuild: `python3 -m Cython.Build.cythonize -3 bt/core.py && python3 -m setuptools build_ext --inplace`
 - The editable pip install may fail if `editables` is missing from `.venv`. Install it with `uv pip install editables`.
 - The `[tool.setuptools.packages.find]` block in `pyproject.toml` is required for editable installs on Python 3.13+.
+- The `.python-version` file pins the venv to Python 3.12; Python 3.14 has a pandas ABI mismatch.
 
 ## Documentazione esperienziale
 
