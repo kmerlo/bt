@@ -2,8 +2,8 @@
 Contains backtesting logic and objects.
 """
 
-from copy import deepcopy
 import inspect
+from copy import deepcopy
 
 import ffn
 import numpy as np
@@ -200,24 +200,14 @@ class Backtest:
             self._install_cost_model_hook()
         elif commissions is not None:
             if not callable(commissions):
-                raise TypeError(
-                    f"commissions must be a callable, got {type(commissions).__name__}"
-                )
+                raise TypeError(f"commissions must be a callable, got {type(commissions).__name__}")
             sig = inspect.signature(commissions)
             params = list(sig.parameters.keys())
             if len(params) < 2:
-                raise TypeError(
-                    f"commission function must accept at least 2 arguments "
-                    f"(quantity, price), got {len(params)}: {params}"
-                )
-            positional_or_keyword = [
-                p for p in sig.parameters.values()
-                if p.kind in (inspect.Parameter.POSITIONAL_ONLY, inspect.Parameter.POSITIONAL_OR_KEYWORD)
-            ]
+                raise TypeError(f"commission function must accept at least 2 arguments (quantity, price), got {len(params)}: {params}")
+            positional_or_keyword = [p for p in sig.parameters.values() if p.kind in (inspect.Parameter.POSITIONAL_ONLY, inspect.Parameter.POSITIONAL_OR_KEYWORD)]
             if len(positional_or_keyword) < 2:
-                raise TypeError(
-                    "commission function's first two parameters must be positional"
-                )
+                raise TypeError("commission function's first two parameters must be positional")
             self.strategy.set_commissions(commissions)
 
         self.stats = {}

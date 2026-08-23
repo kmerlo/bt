@@ -136,6 +136,28 @@ make lint
 make develop
 ```
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Fix**: Migrated Makefile and CI workflows from `pip`/`python -m` to `uv`.
+
+**Changes**:
+- `Makefile`: all targets now use `uv run` (pytest, ruff, build, twine, http.server, jupyter) and `uv sync --all-groups --all-extras` for `develop`
+- `pyproject.toml`: added `[tool.uv]` with `package = false`
+- `.github/workflows/build.yaml`: added `astral-sh/setup-uv@v3`, switched cibuildwheel to `uv run`
+- `.github/workflows/deploy.yaml`: added `setup-uv`, switched `pip install` to `uv pip install`, cibuildwheel to `uv run`
+- `.github/workflows/regression.yaml`: added `setup-uv`, switched `pip install` to `uv pip install`
+- `README.md`: added uv install instructions, updated contributing section
+- `bt/backtest.py`: fixed import order (`import inspect` before `from copy import deepcopy`)
+
+**Verification**:
+```
+make test   → 185 passed
+make lint   → All checks passed
+make dist   → sdist + wheel built, twine check passed
+make fix    → 1 file reformatted (import order)
+```
+
 ## Verification Commands
 
 | Step | Command | Expected |

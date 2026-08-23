@@ -168,3 +168,42 @@ When an advisor-plans plan is fully implemented and verified:
 - After editing `bt/core.py`, always rebuild: `python3 -m Cython.Build.cythonize -3 bt/core.py && python3 -m setuptools build_ext --inplace`
 - The editable pip install may fail if `editables` is missing from `.venv`. Install it with `uv pip install editables`.
 - The `[tool.setuptools.packages.find]` block in `pyproject.toml` is required for editable installs on Python 3.13+.
+
+## Documentazione esperienziale
+
+I file in `docs/` contengono la cronaca dei problemi complessi risolti su
+questo progetto. Ogni volta che si incontra un bug ostico o si impara una
+lezione su lightweight-charts / React / FastAPI, si aggiorna un file esistente
+o se ne crea uno nuovo in `docs/`.
+
+Regole:
+- AGENTS.md resta un quick-reference scansionabile (comandi, architettura,
+  convenzioni). Niente deep-dive tecnici.
+- I dettagli delle soluzioni vanno in `docs/`: cosa NON funzionava, cosa è
+  stato tentato, perché falliva, soluzione finale, riferimenti alle righe di
+  codice.
+- Se un fix tocca sia frontend che backend, creare un unico file che copra
+  entrambi.
+- Committare sempre anche i file in `docs/` insieme al codice che risolve il
+  problema.
+
+### Prefissi dei file in `docs/`
+
+Ogni file in `docs/` ha un prefisso che ne indica il tipo:
+
+| Prefisso | Tipo | Esempi |
+|----------|------|--------|
+| `FIX-` | Cronaca di un bug/problema risolto (cosa NON funzionava, cosa è stato tentato, perché falliva, soluzione, righe di riferimento) | `FIX-DB_MIGRATION_FAILURES.md`, `FIX-MULTI_CHART_SYNC.md` |
+| `GUIDE-` | Documentazione "viva" che descrive come funziona qualcosa e cresce nel tempo (integrazioni, architettura, logiche, how-to) | `GUIDE-INTEGRAZIONE_PINETS.md`, `GUIDE-ARCHITETTURA_TECNICA.md` |
+| `MANUALE-` | Manuale utente | `MANUALE-UTENTE.md` |
+| `ANALISI-` | Analisi/audit one-off (pre-merge, studi, report) | `ANALISI-MERGE.md`, `ANALISI-improve.md` |
+| `NOTE-` | Appunti e verbali di sessione | `NOTE-appunti_opencode.md` |
+
+Regole per le nuove creazioni:
+- Bug fix / lezione appresa → `FIX-<nome>.md`. Descrizione di un
+  comportamento o integrazione → `GUIDE-<nome>.md`. In caso di dubbio usare
+  `FIX-` (la cronaca di problemi è il caso d'uso principale della cartella).
+- Se un file cambia natura, rinominarlo col prefisso giusto e aggiornare tutti
+  i riferimenti.
+- Ogni creazione/rinomina/cancellazione va registrata in `docs/README.md`
+  (l'indice): mai lasciare l'indice stantio.

@@ -3,31 +3,31 @@ TMPREPO=/tmp/docs/bt
 default: build_dev
 
 .PHONY: dist upload docs pages serve klink notebooks test benchmark lint fix develop
+.PHONY: build_dev
 
 develop:
-	python -m pip install -e .[dev]
+	uv sync --all-groups --all-extras
 
 test:
-	python -m pytest -vvv tests --cov=bt --junitxml=python_junit.xml --cov-report=xml --cov-branch --cov-report term
+	uv run pytest -vvv tests --cov=bt --junitxml=python_junit.xml --cov-report=xml --cov-branch --cov-report term
 
 benchmark:
-	python -m pytest -vv benchmarks --benchmark-only
+	uv run pytest -vv benchmarks --benchmark-only
 
 lint:
-	python -m ruff check bt docs/source/conf.py
-	python -m ruff format --check bt docs/source/conf.py
+	uv run ruff check bt docs/source/conf.py
+	uv run ruff format --check bt docs/source/conf.py
 
 fix:
-	python -m ruff check --fix bt docs/source/conf.py
-	python -m ruff format bt docs/source/conf.py
+	uv run ruff check --fix bt docs/source/conf.py
+	uv run ruff format bt docs/source/conf.py
 
 dist:
-	python -m pip install --upgrade build
-	python -m build --sdist --wheel
-	python -m twine check dist/*
+	uv run python -m build --sdist --wheel
+	uv run twine check dist/*
 
 upload: dist
-	python -m twine upload dist/* --skip-existing
+	uv run twine upload dist/* --skip-existing
 
 docs:
 	$(MAKE) -C docs/ clean
@@ -45,10 +45,10 @@ pages:
 
 serve:
 	cd docs/build/html; \
-	python -m http.server 9087
+	uv run python -m http.server 9087
 
 build_dev:
-	python -m pip install -e . --no-build-isolation
+	uv run pip install -e . --no-build-isolation
 
 clean:
 	rm -rf build dist
@@ -62,4 +62,4 @@ klink:
 
 notebooks:
 	cd docs/source; \
-	jupyter notebook --no-browser --ip=*
+	uv run jupyter notebook --no-browser --ip=*

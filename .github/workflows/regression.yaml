@@ -44,11 +44,16 @@ jobs:
         cache: 'pip'
         cache-dependency-path: 'pyproject.toml'
 
+    - uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: "pyproject.toml"
+
     - name: Install dependencies
       run: make develop
 
     - name: Install specific pandas and numpy versions
-      run: pip install "pandas${{ matrix.pandas_version }}" "numpy${{ matrix.numpy_version }}"
+      run: uv pip install "pandas${{ matrix.pandas_version }}" "numpy${{ matrix.numpy_version }}"
 
     - name: Test
       run: make test
