@@ -1,6 +1,7 @@
 """
 A collection of Algos used to create Strategy logic.
 """
+from __future__ import annotations
 
 import abc
 import math
@@ -2395,7 +2396,7 @@ class HedgeRisks(Algo):
         for m in self.measures:
             d = target.get_data("unit_risk").get(m)
             if d is None:
-                raise ValueError(f"unit_risk for {self.measure} not present in temp on {target.name}")
+                raise ValueError(f"unit_risk for {self.measures} not present in temp on {target.name}")
             i = d.index.get_loc(target.now)
             data.append((i, d))
 

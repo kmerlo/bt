@@ -1,6 +1,7 @@
 """
 Contains the core building blocks of the framework.
 """
+from __future__ import annotations
 
 import math
 from copy import deepcopy
@@ -284,7 +285,7 @@ class Node:
         """
         raise NotImplementedError()
 
-    def adjust(self, amount, update=True, flow=True):
+    def adjust(self, amount, update=True, flow=True, fee=0.0):
         """
         Adjust Node value by amount.
         """

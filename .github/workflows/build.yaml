@@ -41,6 +41,9 @@ jobs:
     - name: Lint
       run: make lint
 
+    - name: Type check
+      run: uv run mypy bt/
+
     - name: Test
       run: make test
 

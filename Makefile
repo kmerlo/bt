@@ -17,6 +17,7 @@ benchmark:
 lint:
 	uv run ruff check bt docs/source/conf.py
 	uv run ruff format --check bt docs/source/conf.py
+	uv run mypy bt/
 
 fix:
 	uv run ruff check --fix bt docs/source/conf.py

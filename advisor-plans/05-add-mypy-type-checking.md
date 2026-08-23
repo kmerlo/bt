@@ -161,6 +161,27 @@ In `.github/workflows/build.yaml`, add before tests:
   run: uv run mypy bt/
 ```
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Fix**: Added mypy configuration with sensible defaults and disabled error codes for known Cython/pandas interop noise. Added `from __future__ import annotations` to core modules. Fixed two real bugs found during type-checking.
+
+**Changes**:
+- `pyproject.toml`: added `[tool.mypy]` with `disable_error_code` for Cython-related false positives
+- `bt/core.py`: added `from __future__ import annotations`; fixed `Node.adjust` signature to accept `fee=0.0`
+- `bt/algos.py`: added `from __future__ import annotations`; fixed typo `self.measure` → `self.measures` in error message
+- `bt/backtest.py`: added `from __future__ import annotations`
+- `bt/__init__.py`: added `__all__` export list and `is_zero` to imports
+- `Makefile`: added `uv run mypy bt/` to `lint` target
+- `.github/workflows/build.yaml`: added "Type check" CI step
+
+**Verification**:
+```
+uv run mypy bt/   → Success: no issues found in 4 source files
+make test         → 185 passed
+make lint         → ruff + mypy all pass
+```
+
 ## Verification Commands
 
 | Step | Command | Expected |
