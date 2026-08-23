@@ -36,6 +36,10 @@ from bt.core import (
     Security,
     Strategy,
 )
+from bt.registry import all_algos
+
+# Mapping from class string to Algo class — built-in + plugin algos
+ALGO_CLASS_MAP: dict[str, type] = all_algos()
 
 # Mapping from type string to Python class
 NODE_CLASS_MAP: dict[str, type] = {
@@ -47,9 +51,6 @@ NODE_CLASS_MAP: dict[str, type] = {
     "CouponPayingSecurity": CouponPayingSecurity,
     "CouponPayingHedgeSecurity": CouponPayingHedgeSecurity,
 }
-
-# Mapping from class string to Algo class
-ALGO_CLASS_MAP: dict[str, type] = {name: cls for name, cls in vars(algos).items() if isinstance(cls, type) and issubclass(cls, Algo)}
 
 # Special constructors for AlgoStack subclasses that do not store
 # their init params as instance attributes.  Maps class name ->

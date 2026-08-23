@@ -1,5 +1,31 @@
 # Plan 07: Plugin/Extension System for Custom Algos (Design Plan)
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Fix**: Implemented plugin system in `bt/registry.py`.
+
+**What was built**:
+- `bt/registry.py` — algo/node registry with discovery from `BT_PLUGIN_PATH`
+- `register(name, cls)`, `unregister(name)` — manual registry control
+- `discover(path)` — scans a directory for `.py` plugin files, loads them, registers Algo/Node subclasses
+- `get_algo(name)`, `get_node_type(name)` — lookup by name
+- `all_algos()`, `all_node_types()` — merged builtins + plugins
+- Auto-populates registry with all built-in algos on first access
+- `bt.serializers.ALGO_CLASS_MAP` now pulls from `registry.all_algos()` so plugin algos are serializable too
+
+**Usage**:
+```bash
+BT_PLUGIN_PATH=/path/to/plugins python my_backtest.py
+```
+
+**Verification**:
+```
+make test   → 192 passed (7 new in test_registry.py)
+make lint   → ruff + format + mypy all pass
+uv run mypy bt/ → Success: no issues found in 6 source files
+```
+
 ## Finding
 
 **DIR-01**: Users currently extend bt by copying `examples/pairs_trading.py` patterns — defining custom Algo subclasses inline in their scripts. There is no official extension mechanism. This leads to:
