@@ -1,5 +1,24 @@
 # Plan 08: NumPy 2.x Compatibility Spike (Design Plan)
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Finding**: The project already runs on NumPy 2.5.2 with zero issues. No deprecated APIs are used in the codebase.
+
+**Verification**:
+```
+numpy: 2.5.2 (in .venv, Python 3.12)
+uv run python -c "import bt; print('OK')"  → OK
+make test                                 → 192 passed
+grep for deprecated APIs in bt/           → none found
+```
+
+**Changes made**:
+- `pyproject.toml`: updated `numpy` pin from `">=1"` to `">=1.26,<3.0"` to explicitly document 2.x support
+- `README.md`: added "Requirements" section documenting NumPy ≥ 1.26 / 2.x compatibility
+
+**No code changes needed** — the codebase was already clean of deprecated NumPy APIs (`np.in1d`, `np.round_`, `np.object`, etc. were never used). The existing CI regression workflow already tests against `numpy>=2`.
+
 ## Finding
 
 **M-01**: The project pins `numpy>=1` in dependencies. NumPy 2.0 was released in June 2024 with breaking changes:

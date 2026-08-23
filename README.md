@@ -29,6 +29,14 @@ languages that don't have the same wealth of high-quality, open-source projects.
 
 bt is built atop [ffn](https://github.com/pmorissette/ffn) - a financial function library for Python. Check it out!
 
+## Requirements
+
+- Python ≥ 3.9
+- NumPy ≥ 1.26 (fully compatible with NumPy 2.x)
+- pandas ≥ 0.19
+- matplotlib ≥ 2
+- [ffn](https://github.com/pmorissette/ffn) ≥ 1.1.2
+
 ## Features
 
 * **Tree Structure**
