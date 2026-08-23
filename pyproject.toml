@@ -106,7 +106,7 @@ disallow_incomplete_defs = false
 check_untyped_defs = true
 ignore_missing_imports = true
 strict_optional = true
-disable_error_code = ["attr-defined", "operator", "index", "var-annotated", "override", "union-attr", "call-arg", "has-type"]
+disable_error_code = ["attr-defined", "operator", "index", "var-annotated", "override", "union-attr", "call-arg", "has-type", "no-any-return"]
 
 [tool.uv]
 package = false

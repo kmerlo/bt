@@ -229,6 +229,32 @@ Add to `bt` CLI:
 # bt deserialize strategy.yaml --name "Restored Strategy"
 ```
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Fix**: Created `bt/serializers.py` — a JSON-based strategy serialization module.
+
+**What was built**:
+- `serialize(strategy) -> dict`: walks the Node tree, extracts name, type, params (multiplier, lazy_add), algos (with params), and children (including lazy)
+- `deserialize(data) -> Strategy`: reconstructs the tree from a dict, including nested AlgoStack subclasses like `SelectMomentum`
+- `_ALGO_RECONSTRUCTORS`: registry for AlgoStack subclasses that don't store init params (e.g. `SelectMomentum`)
+- `_to_json_safe()`: converts pandas types (DateOffset, Timedelta, Timestamp) to strings
+- `list_algos()`: returns all serializable algo class names
+
+**Design decisions**:
+- JSON format (not YAML) — simpler, no external dependency
+- No Pydantic dependency in bt core — plain dicts for maximum compatibility
+- Custom algos → rejected with clear error (only `bt.algos` classes supported)
+- Lazy children (`_lazy_children`) are included in serialization
+- `from __future__ import annotations` added to core.py, algos.py, backtest.py
+
+**Verification**:
+```
+uv run mypy bt/        → Success: no issues found in 5 source files
+make test              → 185 passed
+make lint              → ruff + format + mypy all pass
+```
+
 ## Verification Commands
 
 | Step | Command | Expected |

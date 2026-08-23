@@ -16,7 +16,7 @@
 | 03 | migrate-to-uv | — | P0 | ✅ DONE |
 | 04 | fix-hatch-cython-editable | 03 | P1 | ✅ DONE |
 | 05 | add-mypy-type-checking | 03 | P1 | ✅ DONE |
-| 06 | design-strategy-serialization | — | P2 | READY |
+| 06 | design-strategy-serialization | — | P2 | ✅ DONE |
 | 07 | design-plugin-system | — | P2 | READY |
 | 08 | numby-2-compatibility-spike | — | P2 | READY |
 | 09 | split-core-god-module | — | P3 | READY |
