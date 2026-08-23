@@ -2,6 +2,10 @@
 
 This file provides guidance to Agnes (opencode) when working with code in this repository.
 
+## Lingua
+
+Rispondi sempre in italiano, a meno che l'utente non richieda esplicitamente un'altra lingua.
+
 ## Project Overview
 
 **bt** is a flexible backtesting framework for Python used to test quantitative trading strategies. It provides a tree-based architecture where strategies can contain both securities and other strategies, enabling complex multi-layered portfolio constructions.
@@ -14,12 +18,13 @@ Documentation: http://pmorissette.github.io/bt
 
 ### Core Modules
 
-- **`bt/core.py`** (~900 lines): Core building blocks including:
-  - `Node`: Base tree node class (parent of both strategies and securities)
-  - `Strategy` / `StrategyBase`: Strategy logic containers that execute AlgoStacks
-  - `Security` / `SecurityBase`: Security wrappers with price/value tracking
-  - `Algo` / `AlgoStack`: Algorithm building blocks for strategy logic
-  - `FixedIncomeStrategy`, `FixedIncomeSecurity`, `HedgeSecurity`, `CouponPayingSecurity`: Fixed-income variants
+- **`bt/core/`** (pacchetto): Core building blocks suddivisi in 5 moduli:
+  - `node.py` — `Node`, `is_zero`, costanti `PAR` e `TOL`
+  - `strategy.py` — `StrategyBase`, `Strategy`, `FixedIncomeStrategy`
+  - `security.py` — `SecurityBase`, `Security`, `FixedIncomeSecurity`, `CouponPayingSecurity`, `HedgeSecurity`, `CouponPayingHedgeSecurity`
+  - `algo.py` — `Algo`, `AlgoStack`
+  - `costs.py` — `CostModel`, `SqrtCostModel`, `AlmgrenChrissCostModel`
+  - `__init__.py` — re-export di tutti i simboli pubblici per compatibilità con `from bt.core import ...`
 
 - **`bt/algos.py`** (~1600 lines): Collection of built-in algorithms (RunMonthly, SelectAll, WeighEqually, Rebalance, etc.)
 
@@ -42,14 +47,10 @@ The tree structure is central to bt's design:
 
 ### Cython Performance
 
-`bt/core.py` is Cythonized for performance. The build process:
-- `bt/core.py` → Cython → `bt/core.c` → compiled `.so`
-- Type declarations (e.g., `@cy.locals(x=cy.double)`) mark performance-critical sections
-- If Cython is unavailable, falls back to the pre-generated `bt/core.c`
+Cython compilation was used for the original `bt/core.py` but is no longer applied after the 2026-08-23 refactor. The new submodules in `bt/core/` are plain Python. If Cython performance work resumes:
 
-**Known fix** (applied 2026-08-23): The editable install requires:
-- `editables` package installed (not declared in pyproject.toml — must be added manually to .venv)
-- `[tool.setuptools.packages.find]` block in `pyproject.toml` to disambiguate flat-layout packages
+- Build from any single submodule: `python3 -m Cython.Build.cythonize -3 bt/core/<module>.py && python3 -m setuptools build_ext --inplace`
+- Or combine into a single `.so` target as before.
 
 ## Common Commands
 
@@ -165,10 +166,11 @@ When an advisor-plans plan is fully implemented and verified:
 
 ### Build Notes
 
-- After editing `bt/core.py`, always rebuild: `python3 -m Cython.Build.cythonize -3 bt/core.py && python3 -m setuptools build_ext --inplace`
+- After editing any file in `bt/core/`, rebuild if Cython is re-enabled: `python3 -m Cython.Build.cythonize -3 bt/core/<module>.py && python3 -m setuptools build_ext --inplace`
 - The editable pip install may fail if `editables` is missing from `.venv`. Install it with `uv pip install editables`.
 - The `[tool.setuptools.packages.find]` block in `pyproject.toml` is required for editable installs on Python 3.13+.
 - The `.python-version` file pins the venv to Python 3.12; Python 3.14 has a pandas ABI mismatch.
+- `bt/core/` submodules use relative imports internally (`from .node import ...`); public API users keep importing from `bt.core` directly.
 
 ## Documentazione esperienziale
 
