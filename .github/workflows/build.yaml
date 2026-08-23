@@ -64,6 +64,7 @@ jobs:
       env:
         CIBW_BUILD: "cp311-*"
         CIBW_BEFORE_BUILD: "python -c \"from pathlib import Path; [p.unlink() for pattern in ('*.pyd', '*.so', '*.dylib') for p in Path('bt').glob(pattern)]\""
+        CIBW_REPAIR_WHEEL_COMMAND: ""
 
     - name: Check Wheels
       run: twine check dist/*
