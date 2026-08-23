@@ -127,6 +127,22 @@ python3 -m pytest tests/test_backtest.py -q
 python3 -m ruff check bt
 ```
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Fix**: Added runtime validation in `Backtest.__init__` (`bt/backtest.py:200-218`) that checks `commissions` is callable and accepts at least 2 positional/keyword parameters (quantity, price). Uses stdlib `inspect.signature`.
+
+**Changes**:
+- `bt/backtest.py`: added `import inspect`; added callable + arity + positional-kind checks before `set_commissions()`
+- `tests/test_backtest.py`: added 3 tests (`test_invalid_commission_type`, `test_invalid_commission_signature`, `test_valid_commission_variations`)
+
+**Verification**:
+```
+.venv/bin/python -m pytest tests/test_backtest.py -q  → 25 passed
+.venv/bin/python -m pytest tests/ -q                 → 185 passed (+3 new)
+.venv/bin/python -m ruff check bt                    → 2 pre-existing errors (unrelated)
+```
+
 ## Verification Commands
 
 | Step | Command | Expected |

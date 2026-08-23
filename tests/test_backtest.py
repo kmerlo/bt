@@ -644,3 +644,45 @@ def test_backtest_cost_model_cost_scales_with_qty_via_volume():
 
     # AC depth + perm scale linearly in (|q|/V) -> 10x participation -> ~10x cost
     assert thin.strategy.fees.sum() > 5 * base.strategy.fees.sum()
+
+
+def test_invalid_commission_type():
+    """Commission must be callable."""
+    strategy = bt.Strategy("test", [])
+    data = pd.DataFrame({"A": [1.0, 2.0]}, index=pd.date_range("2020", periods=2))
+    with pytest.raises(TypeError, match="callable"):
+        bt.Backtest(strategy, data, commissions="not_callable")
+
+
+def test_invalid_commission_signature():
+    """Commission must accept at least (q, p)."""
+    strategy = bt.Strategy("test", [])
+    data = pd.DataFrame({"A": [1.0, 2.0]}, index=pd.date_range("2020", periods=2))
+
+    with pytest.raises(TypeError, match="at least 2 arguments"):
+        bt.Backtest(strategy, data, commissions=lambda q: 0.0)
+
+    with pytest.raises(TypeError, match="at least 2 arguments"):
+        bt.Backtest(strategy, data, commissions=lambda: 0.0)
+
+    with pytest.raises(TypeError, match="positional"):
+        bt.Backtest(strategy, data, commissions=lambda *, q, p: 0.0)
+
+    bt.Backtest(strategy, data, commissions=lambda q, p: max(1, abs(q) * 0.01))
+
+
+def test_valid_commission_variations():
+    """Accept various valid commission signatures."""
+    strategy = bt.Strategy("test", [])
+    data = pd.DataFrame({"A": [1.0, 2.0]}, index=pd.date_range("2020", periods=2))
+
+    bt.Backtest(strategy, data, commissions=lambda q, p: 0.01 * abs(q))
+    bt.Backtest(strategy, data, commissions=lambda q, p=1.0: 0.01 * abs(q))
+
+    def fn(q, p, **kwargs):
+        return 0.01 * abs(q)
+    bt.Backtest(strategy, data, commissions=fn)
+
+    def fn2(q, p, *args):
+        return 0.01 * abs(q)
+    bt.Backtest(strategy, data, commissions=fn2)
