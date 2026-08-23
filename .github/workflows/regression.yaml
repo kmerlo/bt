@@ -23,7 +23,6 @@ jobs:
         os:
           - ubuntu-latest
         pandas_version:
-          - '>=1,<2'
           - '>=2,<3'
           - '>=3,<4'
         numpy_version:
@@ -31,7 +30,7 @@ jobs:
           - '>=2'
         exclude:
           - numpy_version: '>=2'
-            pandas_version: '>=1,<2'
+            pandas_version: '>=2,<3'
 
     steps:
     - name: Checkout
