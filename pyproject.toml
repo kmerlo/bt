@@ -55,6 +55,7 @@ dev = [
     "packaging>=24.2",
     "ruff",
     "twine>=6.1",
+    "build",
     "wheel",
 ]
 
