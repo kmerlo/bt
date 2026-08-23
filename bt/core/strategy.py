@@ -67,7 +67,6 @@ class StrategyBase(Node):
     _last_fee = cy.declare(cy.double)
     _paper_trade = cy.declare(cy.bint)
     bankrupt = cy.declare(cy.bint)
-    _last_chk = cy.declare(cy.bint)
 
     def __init__(self, name, children=None, parent=None):
         Node.__init__(self, name, children=children, parent=parent)
@@ -83,7 +82,7 @@ class StrategyBase(Node):
         self._last_price = PAR
         self._last_fee = 0
 
-        self._last_chk = 0
+        self._last_chk: int | None = 0
 
         # default commission function
         self.commission_fn = self._dflt_comm_fn
