@@ -182,6 +182,14 @@ python -m pytest tests/test_backtest.py -q
 
 ---
 
+## Status: ✅ COMPLETED
+
+**Date**: 2026-08-23  
+**Verification**: `python3 -m pytest tests/ -q` → 192 passed; `make lint` → all green; GitHub Actions Build Status ✅; Regression and Version Tests ✅  
+**Changes**: `bt/core.py` (2213 lines) split into `bt/core/` package with 5 submodules. Old `.py`/`.c`/`.so` removed. All `from bt.core import ...` imports preserved via `__init__.py` re-exports. CI fixed: added `mypy` + `build` to dev deps, dropped unsupported pandas 1.x matrix, disabled auditwheel repair for pure-Python wheel, fixed `twine` path in CI.
+
+---
+
 ## Evidence References
 
 - `bt/core.py:1-2211` — Full source (2211 lines, 121 symbols)
